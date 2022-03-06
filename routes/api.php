@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,16 @@ use Illuminate\Support\Facades\Route;
 
 //Route test
 Route::get('/products', function(){
-    return 'products';
+    return Product::all();
+});
+
+Route::post('/products', function(){
+    return Product::Create([
+        'name'=> 'product one',
+        'slug'=> 'product-one',
+        'description'=> 'This is product one',
+        'price' =>'99.32'
+    ]);
 });
 
 

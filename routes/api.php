@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\Product;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,18 +18,17 @@ use App\Models\Product;
 
 
 //Route test
-Route::get('/products', function(){
-    return Product::all();
-});
+// Route::get('/products', [ProductController::class, 'index']);
 
-Route::post('/products', function(){
-    return Product::Create([
-        'name'=> 'product one',
-        'slug'=> 'product-one',
-        'description'=> 'This is product one',
-        'price' =>'99.32'
-    ]);
-});
+
+// Route::post('/products', [ProductController::class, 'store']);
+
+// Route::get('/products/id', [ProductController::class, 'show']);
+
+
+Route::resource('products', ProductController::class);
+Route::get('/products/id', [ProductController::class, 'show']);
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

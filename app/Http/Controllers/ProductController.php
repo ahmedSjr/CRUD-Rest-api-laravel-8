@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
+
 
 class ProductController extends Controller
 {
@@ -13,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return Product::all();
     }
 
     /**
@@ -24,7 +26,12 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'slug' => 'required',
+            'price' => 'required',
+        ]);
+        return Product::Create($request->all());
     }
 
     /**
@@ -35,7 +42,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        return Product::find($id);
     }
 
     /**
@@ -47,7 +54,27 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // $request->validate([
+        //     'name' => 'required',
+        //     // 'slug' => 'required',
+        //     // 'price' => 'required',
+        // ]);
+        $product = Product::findOrFail($id);
+        $product->update($request->all());
+        return $product;
+        // $product->name = $request->name;
+        // $product->slug = $request->slug;
+        // $product->price = $request->price;
+        // $product->description = $request->description;
+        // $product->update();
+
+        // return response()->json('it updated', 200);
+
+
+        // $article = Product::findOrFail($id);
+        // $article->update($request->all());
+
+        // return $article;
     }
 
     /**
@@ -58,6 +85,16 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        return 204;
+    }
+
+    // search function
+
+    public function search($name){
+        return Product::where('name', 'like', '%'.$name.'%')->get();
     }
 }
